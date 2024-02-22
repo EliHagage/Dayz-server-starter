@@ -1,61 +1,56 @@
 
-Here what you need to know and stuff you need to do
-========
-download the zip file 
-========
-extract zip to ServerScriptDayZ
-========
-run the file RunMe1st.bat
-========
-it will make shortcut to your desktop
-========
-click it,it will ask for your steam user name and password 
-========
-then its will install the required software to open the server
-========
-PHP and the node need to be in C:\PHP and the node need to be default folder in c:\programfiles\nodejs you can install the server anywhere you want after the install you need to restart your computer
-========
-if you get the user name and password wrong you will need to start all over again Del the folder unzip and start 1 more time or come to discord for help
-========
-if all good then log in to the web site add the mods to the modsinfo then go to settings  in there fix your stttings make new server of change the 1 we did ahve for you in the list as demo
-========
-imprtant the name must be the map name if you have 2 (exp) Chernarus then 1 will be Chernarus and 1 will be ChernarusPlus (in the name part ) map name will be the same only change the stoge # instanceId = 1 to instanceId = 2 or what # you want
-========
-come to discord for more info 
-========
-you will have password to start the server with your info.  If you need help come into our discord.
-========
-you can set a time in seconds in order to restart.  This time will be displayed in messages on server every hour (time will be displayed in hours).
-========
-during the last 15min you will get msg every 1 min 
-========
-during last 2 min you will have every sec
-========
-we did add admin power in the game that you can stop or reset the server.  ex. !restart 5 will restart server in 5 minutes. (Min 2 minutes)
-========
-we did add translate from any language you in privte msg using google
-========
-!lang - sets your language to language you chose.  !lang fr   - you will send, receive in french
-========
-!sendlang - any message you send will be considered to be the language you chose and will translate for others with different language
-========
-!receivelang - any message sent to you send will be considered to be translated into the language you chose if the sender had a different language chosen
-========
-we did add jokes all you need is type !joke 
-========
-you can make !help note for your players 
-========
-we did put update to mods and msg to discord 
-========
-server will restart on the mod update we msg to the server 
-========
-type !players to see players id and send !warn players # 
-========
-the server will have 1 mode folder to all the servers and 1 dayz folder server to all the servers you open save lots of space if the mod get update to mod that useed by all the servers they will or restart to update mode
-========
-we did add more 
-========
-that is all private code and not allow to post under any acount but Elihagage 
+# ServerScriptDayZ: An Advanced Installation and Management Framework
+
+Welcome to the ServerScriptDayZ repository, a sophisticated framework meticulously designed to facilitate the seamless setup and comprehensive management of your DayZ server. This framework is the culmination of rigorous development efforts aimed at simplifying the server installation process, incorporating language translation functionalities, offering robust administrative controls, and much more. We invite you to follow the detailed instructions provided herein to embark on your setup journey.
+
+## Initial Setup Instructions
+
+### 1. Preparation and Download:
+   - Proceed to download the ZIP file made available.
+   - Extract the ZIP file's contents into the designated `ServerScriptDayZ` directory.
+
+### 2. Framework Installation:
+   - Initiate the installation by executing `RunMe1st.bat`. A shortcut will be thoughtfully created on your desktop for ease of access.
+   - Utilize the shortcut to begin. You will be requested to provide your Steam username and password, which are essential for installing the requisite software to operationalize your server.
+   - Ensure PHP and Node.js are installed on your system. PHP should be located in `C:\PHP`, and Node.js should be in its default installation directory, `C:\ProgramFiles\nodejs`. These installations are critical for the server's operation.
+
+### 3. Server Configuration:
+   - After successful authentication, the framework will configure your server. Note that inaccuracies in login credentials necessitate restarting this process by deleting the previously unzipped folder, re-extracting the ZIP file, and running `RunMe1st.bat` again.
+   - A distinctive password, crucial for server access, will be automatically generated.
+
+### 4. Server Restart Scheduling:
+   - Specify a server restart interval in seconds. This interval will be announced on the server every hour.
+   - Notifications increase in frequency to every minute during the last 15 minutes and to every second during the final 2 minutes before a restart.
+
+### 5. Administrative Commands:
+   - Use commands like `!restart 5` to restart the server in 5 minutes (minimum of 2 minutes required).
+   - Enhanced administrative capabilities allow for the management and control of server operations.
+
+### 6. Language Translation Capabilities:
+   - Set your communication language with `!lang` (e.g., `!lang fr` for French).
+   - `!sendlang` and `!receivelang` support message translation for seamless communication across different languages.
+
+### 7. Augmented Features:
+   - Engage the community with `!joke` to share humor.
+   - Create informative notes for your players with `!help`.
+   - Stay updated on mod updates and server restarts through our Discord channel.
+   - Use `!players` to view player IDs and `!warn` to manage player interactions.
+
+## Community Support and Engagement
+
+Join our Discord community for support and to address inquiries or issues: [Join Discord](https://discord.gg/hbSDeTR7w5). Our team and community members are here to assist.
+
+## Updates and Proprietary Code
+
+Certain functionalities and code, including mod updates and private messaging features, are proprietary. These elements emphasize privacy and security, ensuring a secure gaming experience.
+
+## Contact Information
+
+For inquiries or issues, contact:
+
+- **Israeli Sniper** - elibond@hotmail.com
+
+Your feedback and contributions are invaluable as we continue to improve the ServerScriptDayZ framework.
 
 
 PayPal
