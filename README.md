@@ -18,4 +18,6 @@ we did put update to mods and msg to discord
 server will restart on the mod update we msg to the server 
 type !players to see players id and send !warn players # 
 we did add more 
+that is all privte code and not aloow to post under any acount but Elihagage 
+
 discord here https://discord.gg/hbSDeTR7w5
