@@ -59,17 +59,6 @@ PayPal
 buy us coffe
 https://www.paypal.com/paypalme/Elihagage
 
-Discord
-========
-
-discord here https://discord.gg/hbSDeTR7w5
-
-Email
-========
-
-Signed-off-by: Israeli Sniper <elibond@hotmail.com>
-
-
 Imgs
 ========
 
