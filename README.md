@@ -13,7 +13,7 @@ click it,it will ask for your steam user name and password
 ========
 then its will install the required software to open the server
 ========
-PHP and the node need to be in C:\PHP and the node need to be default folder in c:\programfiles\nodejs
+PHP and the node need to be in C:\PHP and the node need to be default folder in c:\programfiles\nodejs you can install the server anywhere you want after the install you need to restart your computer
 ========
 if you get the user name and password wrong you will need to start all over again Del the folder unzip and start 1 more time or come to discord for help
 ========
