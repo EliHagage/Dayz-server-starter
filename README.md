@@ -12,7 +12,10 @@ during the last 15min you will get msg every 1 min
 during last 2 min you will have every sec
 we did add admin power in the game that you can stop or reset the server.  ex. !restart 5 will restart server in 5 minutes. (Min 2 minutes)
 we did add translate from any language you in privte msg using google
+
 !lang - sets your language to language you chose.  !lang fr   - you will send, receive in french
+!sendlang - any message you send will be considered to be the language you chose and will translate for others with different language
+!receivelang - any message sent to you send will be considered to be translated into the language you chose if the sender had a different language chosen
 
 we did add jokes all you need is type !joke 
 you can make !help note for your players 
