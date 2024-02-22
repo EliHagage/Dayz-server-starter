@@ -1,5 +1,5 @@
 
-Here you need to know stuff you need to do
+Here what you need to know and stuff you need to do
 ========
 here you need to know stuff you need to do  
 download the zip file 
