@@ -1,0 +1,304 @@
+{
+    "ScriptConfig": [
+        {
+            "Steam_User_Name": "ravin392",
+            "SteamPassword": "Walkingtall12",
+            "DayzFolder": "DAYZServer",
+            "SteamCmdMods": "steamcmd\\steamapps\\workshop\\content\\221100",
+            "SteamCmdRoot": "steamcmd\\",
+            "SteamAPPFolder": "steamcmd\\steamapps\\common\\DayZServer",
+            "Steamlog": "steamcmd\\logs",
+            "SteamGameID": "221100",
+            "DiscordUrl": "",
+            "ScriptFolder": "MainFolder",
+            "ModCount": "250"
+        }
+    ],
+    "ServerConfigurations": [
+        {
+            "Startserver": false,
+            "Name": "chernarusplus",
+            "Mapfolder": "dayzOffline.chernarusplus",
+            "Serverip": "144.48.106.254",
+            "rconport": "2608",
+            "steamQueryPort": "2605",
+            "rconpassword": "mypasswordishere",
+            "Server_restart": "480",
+            "GamePort": "2602",
+            "serverCPU": "6",
+            "Args": [
+                "-PriorityClass Realtime",
+                "-config=chernarusplusDZ.cfg",
+                "-profiles=chernarusplusPro",
+                "-cpuCount=$serverCPU",
+                "-port=2602",
+                "-adminlog",
+                "serverTimeAcceleration = 2",
+                "instanceId = 1",
+                "maxPlayers = 30",
+                "adminLogBuildActions = 1",
+                "logAverageFps = 10",
+                "adminLogPlayerList = 1",
+                "serverNightTimeAcceleration = 16",
+                "forceSameBuild = 1",
+                "disableCrosshair = 0",
+                "multithreadedReplication = 1",
+                "hostname =chernarusplus|PVP||Cars|Heli|Traders|ATM",
+                "serverTime = SystemTime",
+                "passwordAdmin = *******",
+                "disableVoN = 0",
+                "enableCfgGameplayFile = 1",
+                "vonCodecQuality = 10",
+                "loginQueueMaxPlayers = 500",
+                "storageAutoFix = 1",
+                "disable3rdPerson = 0",
+                "loginQueueConcurrentPlayers = 5",
+                "password = ",
+                "enableWhitelist = 0",
+                "adminLogPlacement = 1",
+                "verifySignatures = 1",
+                "storeHouseStateDisabled = 0",
+                "serverTimePersistent = 1",
+                "enableDebugMonitor = 0",
+                "EnableDeathMarkers = 1",
+                "guaranteedUpdates = 1",
+                "disablePersonalLight = 1",
+                "TombstoneLifetime = 21600000",
+                "-ServerMod=",
+                "-mod=@FUTUREXServerPackMod;@CF;@BuilderItems;@VPPAdminTools;@Trader;@BaseBuildingPlus;@DBN_FordRaptor_Scorpio;@PVEZ_Reloaded;@MMG_Mightys_Military_Gear;@InediaInfectedAI;@Unlimited_Stamina;@Advanced_Weapon_Scopes;@Better_Snap_Sounds;@Code_Lock;@RaG_BaseItems;@RaG_Vehicle_Pack;@MuchCarKey;@RedFalconFlightSystemHeliz_Release_Candidate;@DNAKeycards;@CarCover;@CarePackagesV2;@CannabisPlus;@KillReward;@MuppetFix;@ND_Missions;@LIGHTS;@FlipTransport;@NoFallDamage;@Zombiekids;@FalloutZ;@Ear_Plugs;"
+            ]
+        },
+        {
+            "Startserver": true,
+            "Name": "Pripyat",
+            "Mapfolder": "empty.Pripyat",
+            "Serverip": "127.0.0.1",
+            "rconport": "2308",
+            "steamQueryPort": "27016",
+            "rconpassword": "mypasswordishere11",
+            "Server_restart": "480",
+            "GamePort": "2302",
+            "serverCPU": "10",
+            "Args": [
+                "-PriorityClass Realtime",
+                "-config=PripyatDZ.cfg",
+                "-profiles=PripyatPro",
+                "-port=2302",
+                "-cpuCount=",
+                "-adminlog",
+                "serverTimeAcceleration = 2",
+                "instanceId = 1",
+                "maxPlayers = 60",
+                "adminLogBuildActions = 0",
+                "logAverageFps = 600",
+                "adminLogPlayerList = 1",
+                "serverNightTimeAcceleration = 6",
+                "forceSameBuild = 1",
+                "disableCrosshair = 0",
+                "multithreadedReplication = 1",
+                "hostname = Pripyat_test_server",
+                "serverTime = SystemTime",
+                "passwordAdmin = mypasswordishere11",
+                "disableVoN = 0",
+                "enableCfgGameplayFile = 1",
+                "vonCodecQuality = 10",
+                "loginQueueMaxPlayers = 500",
+                "storageAutoFix = 1",
+                "disable3rdPerson = 0",
+                "loginQueueConcurrentPlayers = 5",
+                "password = ",
+                "enableWhitelist = 0",
+                "adminLogPlacement = 1",
+                "verifySignatures = 1",
+                "storeHouseStateDisabled = 0",
+                "serverTimePersistent = 1",
+                "enableDebugMonitor = 0",
+                "EnableDeathMarkers = 1",
+                "guaranteedUpdates = 1",
+                "disablePersonalLight = 1",
+                "TombstoneLifetime = 21600000",
+                "-ServerMod=",
+                "-mod=@Pripyat;@CF;@Community-Online-Tools;@BuilderItems;@VPPAdminTools;@KillReward;@GSCGameworldAssets;"
+            ]
+        }
+    ],
+    "ModInfo": [
+        {
+            "Mod_Name": "Pripyat",
+            "Mod_ID": "2938009193",
+            "activeServers": [
+                "1"
+            ]
+        },
+        {
+            "Mod_Name": "FUTUREXServerPackMod",
+            "Mod_ID": "2839064735"
+        },
+        {
+            "Mod_Name": "CF",
+            "Mod_ID": "1559212036",
+            "activeServers": [
+                "1"
+            ]
+        },
+        {
+            "Mod_Name": "Community-Online-Tools",
+            "Mod_ID": "1564026768",
+            "activeServers": [
+                "1"
+            ]
+        },
+        {
+            "Mod_Name": "BuilderItems",
+            "Mod_ID": "1565871491",
+            "activeServers": [
+                "1"
+            ]
+        },
+        {
+            "Mod_Name": "Banov",
+            "Mod_ID": "2415195639"
+        },
+        {
+            "Mod_Name": "VPPAdminTools",
+            "Mod_ID": "1828439124",
+            "activeServers": [
+                "1"
+            ]
+        },
+        {
+            "Mod_Name": "Trader",
+            "Mod_ID": "1590841260"
+        },
+        {
+            "Mod_Name": "BaseBuildingPlus",
+            "Mod_ID": "1710977250"
+        },
+        {
+            "Mod_Name": "DBN_FordRaptor_Scorpio",
+            "Mod_ID": "2809757799"
+        },
+        {
+            "Mod_Name": "PVEZ_Reloaded",
+            "Mod_ID": "2831742849"
+        },
+        {
+            "Mod_Name": "MMG_Mightys_Military_Gear",
+            "Mod_ID": "2663169692"
+        },
+        {
+            "Mod_Name": "InediaInfectedAI",
+            "Mod_ID": "3031784065"
+        },
+        {
+            "Mod_Name": "Unlimited_Stamina",
+            "Mod_ID": "1560819773"
+        },
+        {
+            "Mod_Name": "Advanced_Weapon_Scopes",
+            "Mod_ID": "2143128974"
+        },
+        {
+            "Mod_Name": "Better_Snap_Sounds",
+            "Mod_ID": "2565724570"
+        },
+        {
+            "Mod_Name": "Code_Lock",
+            "Mod_ID": "1646187754"
+        },
+        {
+            "Mod_Name": "RaG_BaseItems",
+            "Mod_ID": "2878980498"
+        },
+        {
+            "Mod_Name": "RaG_Vehicle_Pack",
+            "Mod_ID": "2880254695"
+        },
+        {
+            "Mod_Name": "MuchCarKey",
+            "Mod_ID": "2049002856"
+        },
+        {
+            "Mod_Name": "RedFalconFlightSystemHeliz_Release_Candidate",
+            "Mod_ID": "2806161021"
+        },
+        {
+            "Mod_Name": "DNAKeycards",
+            "Mod_ID": "2714183642"
+        },
+        {
+            "Mod_Name": "CarCover",
+            "Mod_ID": "2303483532"
+        },
+        {
+            "Mod_Name": "CarePackagesV2",
+            "Mod_ID": "2691041685"
+        },
+        {
+            "Mod_Name": "CannabisPlus",
+            "Mod_ID": "1932611410"
+        },
+        {
+            "Mod_Name": "KillReward",
+            "Mod_ID": "2181531192",
+            "activeServers": [
+                "1"
+            ]
+        },
+        {
+            "Mod_Name": "MuppetFix",
+            "Mod_ID": "2594237909"
+        },
+        {
+            "Mod_Name": "ND_Missions",
+            "Mod_ID": "2677679929"
+        },
+        {
+            "Mod_Name": "LIGHTS",
+            "Mod_ID": "2822125184"
+        },
+        {
+            "Mod_Name": "FlipTransport",
+            "Mod_ID": "1832448183"
+        },
+        {
+            "Mod_Name": "NoFallDamage",
+            "Mod_ID": "2206883100"
+        },
+        {
+            "Mod_Name": "SteadyScopeV",
+            "Mod_ID": "2431450422"
+        },
+        {
+            "Mod_Name": "UnCivilizedSP_1_2",
+            "Mod_ID": "3140341520"
+        },
+        {
+            "Mod_Name": "Zombiekids",
+            "Mod_ID": "2832590702"
+        },
+        {
+            "Mod_Name": "FalloutZ",
+            "Mod_ID": "3027821737"
+        },
+        {
+            "Mod_Name": "AdvancedGroupsPVEZPlugin",
+            "Mod_ID": "2292058819"
+        },
+        {
+            "Mod_Name": "UnCivilizedLBgroup",
+            "Mod_ID": "3148874199"
+        },
+        {
+            "Mod_Name": "Ear_Plugs",
+            "Mod_ID": "1819514788"
+        },
+        {
+            "Mod_Name": "GSCGameworldAssets",
+            "Mod_ID": "2868091107",
+            "activeServers": [
+                "1"
+            ]
+        }
+    ]
+}
