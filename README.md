@@ -2,29 +2,50 @@
 Here what you need to know and stuff you need to do
 ========
 download the zip file 
+========
 extract zip to ServerScriptDayZ
+========
 run the file RunMe1st.bat
+========
 it will make shortcut to your desktop
+========
 click it,it will ask for your steam user name and password 
+========
 then its will install the required software to open the server
+========
 if you get the user name and password wrong you will need to start all over again 
+========
 you will have password to start the server with your info.  If you need help come into our discord.
+========
 you can set a time in seconds in order to restart.  This time will be displayed in messages on server every hour (time will be displayed in hours).
+========
 during the last 15min you will get msg every 1 min 
+========
 during last 2 min you will have every sec
+========
 we did add admin power in the game that you can stop or reset the server.  ex. !restart 5 will restart server in 5 minutes. (Min 2 minutes)
+========
 we did add translate from any language you in privte msg using google
 
 !lang - sets your language to language you chose.  !lang fr   - you will send, receive in french
+========
 !sendlang - any message you send will be considered to be the language you chose and will translate for others with different language
+========
 !receivelang - any message sent to you send will be considered to be translated into the language you chose if the sender had a different language chosen
+========
 
 we did add jokes all you need is type !joke 
+========
 you can make !help note for your players 
+========
 we did put update to mods and msg to discord 
+========
 server will restart on the mod update we msg to the server 
+========
 type !players to see players id and send !warn players # 
+========
 we did add more 
+========
 that is all private code and not allow to post under any acount but Elihagage 
 
 
