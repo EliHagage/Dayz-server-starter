@@ -79,7 +79,6 @@ Imgs
 ========
 
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="600" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-49.png" width="600" alt="Settings">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-13-09.png" width="600" alt="Modinfo settings">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-13-52.png" width="600" alt="Edit files ">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-22-27.png" width="600" alt="Server config">
