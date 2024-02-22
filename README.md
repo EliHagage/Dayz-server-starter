@@ -3,71 +3,33 @@ download the zip file
 extract zip to ServerScriptDayZ
 run the file RunMe1st.bat
 it will make shortcut to your desktop
-click it it will ask for your steam user name and password 
-then its will install the sutff you need to open the server
-if you get the user name and password wrong you will need to start all from top 
-you will ahve password to start the server with your info get in our discord for help 
-you can restart the server with msg every 1h will give you msg in game how long left 
-last 15min you will get msg every 1 min 
-last 2 min you will have every sec
-we did add admin power in the game that you can stop or reset the !restart and time 
-we did add translte from any language yo you in privte msg 
-we did add joks all you need is type !joke 
+click it,it will ask for your steam user name and password 
+then its will install the required software to open the server
+if you get the user name and password wrong you will need to start all over again 
+you will have password to start the server with your info.  If you need help come into our discord.
+you can set a time in seconds in order to restart.  This time will be displayed in messages on server every hour (time will be displayed in hours).
+during the last 15min you will get msg every 1 min 
+during last 2 min you will have every sec
+we did add admin power in the game that you can stop or reset the server.  ex. !restart 5 will restart server in 5 minutes. (Min 2 minutes)
+we did add translate from any language you in privte msg using google
+!lang - sets your language to language you chose.  !lang fr   - you will send, receive in french
+
+we did add jokes all you need is type !joke 
 you can make !help note for your players 
 we did put update to mods and msg to discord 
 server will restart on the mod update we msg to the server 
 type !players to see players id and send !warn players # 
 we did add more 
-that is all privte code and not aloow to post under any acount but Elihagage 
+that is all private code and not allow to post under any acount but Elihagage 
 
 discord here https://discord.gg/hbSDeTR7w5
 
 
-Sign in
-thevisad
-/
-Dayz-server-starter
-Public
-Reality DayZ - replaced batfile for DayZ servers
 
-License
- GPL-2.0 license
- 45 stars  86 forks  Branches  Tags  Activity
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-thevisad/Dayz-server-starter
-Folders and files
-Name		
-Latest commit
-thevisad
-thevisad
-Merge pull request #280 from Dayz-server-starter
-
-History
-cmd_scripts
-Little fix
-
-filter
-Fixed filters URL and added extra line to stop kicking for killmsgs
-
-missions
-dayz 1.8.0.2 fix
 
 pkgs
-Signed-off-by: thevisad <elibond@hotmail.com>
+Signed-off-by: Israeli Sniper <elibond@hotmail.com>
 
-schema
-Updates scripts downloader to grab the latest version 1.0
-
-util
-Updated to 2.0
-
-.gitattributes
-Pre merge to 2.0
 
 
                       GNU GENERAL PUBLIC LICENSE
