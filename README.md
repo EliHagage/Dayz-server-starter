@@ -25,24 +25,24 @@ type !players to see players id and send !warn players #
 we did add more 
 that is all private code and not allow to post under any acount but Elihagage 
 
-
+========
 PayPal
 ========
 
 buy us coffe
 https://www.paypal.com/paypalme/Elihagage
-
+========
 Discord
 ========
 
 discord here https://discord.gg/hbSDeTR7w5
 
-
+========
 
 
 Signed-off-by: Israeli Sniper <elibond@hotmail.com>
 
-
+========
 
 Imgs
 ========
