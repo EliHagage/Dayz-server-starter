@@ -34,7 +34,7 @@ pkgs
 Signed-off-by: Israeli Sniper <elibond@hotmail.com>
 
 
-<img src="[https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png]" width="350" alt="accessibility text">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="accessibility text">
 https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png
 
                       GNU GENERAL PUBLIC LICENSE
