@@ -1,8 +1,8 @@
 {
     "ScriptConfig": [
         {
-            "Steam_User_Name": "ravin392",
-            "SteamPassword": "Walkingtall12",
+            "Steam_User_Name": "test",
+            "SteamPassword": "test",
             "DayzFolder": "DAYZServer",
             "SteamCmdMods": "steamcmd\\steamapps\\workshop\\content\\221100",
             "SteamCmdRoot": "steamcmd\\",
