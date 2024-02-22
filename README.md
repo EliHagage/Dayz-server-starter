@@ -83,7 +83,6 @@ Imgs
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-13-09.png" width="600" alt="Modinfo settings">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-13-52.png" width="600" alt="Edit files ">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-22-27.png" width="600" alt="Server config">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-23-07.png" width="600" alt="Server config2">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-23-23.png" width="600" alt="main Server settings">
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-23-39.png" width="600" alt="What mod you want to load">
 
