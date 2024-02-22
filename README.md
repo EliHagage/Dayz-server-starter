@@ -28,7 +28,7 @@ thevisad
 /
 Dayz-server-starter
 Public
-Reality DayZ - replaced Bliss for DayZ servers
+Reality DayZ - replaced batfile for DayZ servers
 
 License
  GPL-2.0 license
