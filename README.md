@@ -39,7 +39,6 @@ we did add translate from any language you in privte msg using google
 ========
 !receivelang - any message sent to you send will be considered to be translated into the language you chose if the sender had a different language chosen
 ========
-
 we did add jokes all you need is type !joke 
 ========
 you can make !help note for your players 
@@ -49,6 +48,8 @@ we did put update to mods and msg to discord
 server will restart on the mod update we msg to the server 
 ========
 type !players to see players id and send !warn players # 
+========
+the server will have 1 mode folder to all the servers and 1 dayz folder server to all the servers you open save lots of space if the mod get update to mod that useed by all the servers they will or restart to update mode
 ========
 we did add more 
 ========
