@@ -33,16 +33,15 @@ discord here https://discord.gg/hbSDeTR7w5
 pkgs
 Signed-off-by: Israeli Sniper <elibond@hotmail.com>
 
-
+https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-49.png
 <img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
-<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-27.png" width="350" alt="main window">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-12-49.png" width="350" alt="Settings">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-13-09.png" width="350" alt="Modinfo settings">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-13-52.png" width="350" alt="Edit files ">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-22-27.png" width="350" alt="Server config">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-23-07.png" width="350" alt="Server config2">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-23-23.png" width="350" alt="main Server settings">
+<img src="https://github.com/EliHagage/Dayz-server-starter/blob/main/pic/2024-02-22_11-23-39.png" width="350" alt="What mod you want to load">
                       GNU GENERAL PUBLIC LICENSE
                          Version 2, June 1991
 
