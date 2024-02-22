@@ -13,7 +13,13 @@ click it,it will ask for your steam user name and password
 ========
 then its will install the required software to open the server
 ========
-if you get the user name and password wrong you will need to start all over again 
+if you get the user name and password wrong you will need to start all over again Del the folder unzip and start 1 more time or come to discord for help
+========
+if all good then log in to the web site add the mods to the modsinfo then go to settings  in there fix your stttings make new server of change the 1 we did ahve for you in the list as demo
+========
+imprtant the name must be the map name if you have 2 (exp) Chernarus then 1 will be Chernarus and 1 will be ChernarusPlus (in the name part ) map name will be the same only change the stoge # instanceId = 1 to instanceId = 2 or what # you want
+========
+come to discord for more info 
 ========
 you will have password to start the server with your info.  If you need help come into our discord.
 ========
