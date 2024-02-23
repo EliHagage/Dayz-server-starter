@@ -5,8 +5,8 @@ $system_path_config = "./assets/config.php";
 $system_user = "22222";
 $system_password = "333331";
 
-$system_path_startserver = "\ServerScriptDayZ\Serverlist.ps1";
-$system_path_updateserver = "\ServerScriptDayZ\updater.ps1";
+$system_path_startserver = "../../Serverlist.ps1";
+$system_path_updateserver = "../../updater.ps1";
 
 $system_path_settings = "../../settings.json";
 $system_path_adminlist = "../../adminList.txt";
