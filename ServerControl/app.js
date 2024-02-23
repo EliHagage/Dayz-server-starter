@@ -23,7 +23,7 @@ app.use(
 
 // Serve index.php when users access the root URL
 app.get("/", (req, res) => {
-  res.sendFile(path.join(publicDir, "servercontrol"));
+  res.sendFile(path.join(publicDir, ""));
 });
 
 app.use("/", php.cgi(publicDir));
