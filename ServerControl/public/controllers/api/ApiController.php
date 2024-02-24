@@ -2,20 +2,26 @@
 class ApiController
 {
     private function runPowerShellScript($scriptPath, $args = null, $hidden = false) {
-        $cmd = "powershell.exe";
+
+        global $system_path_psscript;
+
+        $batchScriptPath = $system_path_psscript;
+
         if ($hidden) {
-            $cmd .= " -WindowStyle Hidden";
+            $cmd = "powershell.exe -WindowStyle Hidden -File " . escapeshellarg($scriptPath);
+        } else {
+            $cmd = "powershell.exe -File " . escapeshellarg($scriptPath);
         }
-        $cmd .= " -File " . escapeshellarg($scriptPath);
+
         if ($args !== null) {
             $argString = escapeshellarg(json_encode($args));
             $cmd .= " " . $argString;
         }
-        if ($hidden) {
-            pclose(popen("start /B " . $cmd, "r"));
-        } else {
-            pclose(popen("start " . $cmd, "r"));
-        }
+
+        $shellCmd = $hidden ? "cmd /C start /B " : "cmd /C start ";
+        $shellCmd .= $cmd;
+        
+        pclose(popen($shellCmd, "r"));
     }
 
 
@@ -26,27 +32,25 @@ class ApiController
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-            if (isset($_GET['action'])) {
-                $redirectUrl = $_SESSION["root"] . "/";
-                
-                $hidden = isset($_GET['hidden']) && $_GET['hidden'] == 'true';
 
-                if ($_GET['action'] == 'start-server') {
-                    $this->runPowerShellScript($system_path_startserver, null, $hidden);
-                    if ($hidden) {
-                        $redirectUrl .= "?hidden=true";
-                    }
-                }
-                elseif ($_GET['action'] == 'update-server') {
-                    $this->runPowerShellScript($system_path_updateserver, null, $hidden);
-                    if ($hidden) {
-                        $redirectUrl .= "?hidden=true";
-                    }
+            if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action'])) {
+                $response = ['success' => false, 'message' => 'Unknown action'];
+                $hidden = isset($_GET['hidden']) && $_GET['hidden'] === 'true';
+
+                switch ($_GET['action']) {
+                    case 'start-server':
+                    case 'update-server':
+                        $scriptPath = $_GET['action'] == 'start-server' ? $system_path_startserver : $system_path_updateserver;
+                        $this->runPowerShellScript($scriptPath, null, $hidden);
+                        $response = ['success' => true, 'message' => $_GET['action'] . ' initiated'];
+                        break;
                 }
 
-                header("Location: " . $redirectUrl);
+                header('Content-Type: application/json');
+                echo json_encode($response);
                 exit;
             }
+
 
             $data = [];
             $accepted = true;

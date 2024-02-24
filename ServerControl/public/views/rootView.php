@@ -84,23 +84,54 @@ $username = $_SESSION['username']
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="updateServerWithOption()">Update Server</a>
+                    <a id="startServerBtn" class="nav-link" href="#">Start Server</a>
+                </li>
+
+                <li class="nav-item">
+                    <a id="upddateServerBtn" class="nav-link" href="#">Update Server</a>
                 </li>
 
                 <script>
-                function startServerWithOption() {
-                    var startHidden = confirm("Should the server be started with a hidden window?");
-                    var baseUrl = "<?php echo $_SESSION['root']; ?>/api?action=start-server";
-                    var urlWithOption = baseUrl + "&hidden=" + (startHidden ? "true" : "false");
-                    window.location.href = urlWithOption;
-                }
+                    $(document).ready(function() {
+                        function startServerWithOption(event) {
+                            event.preventDefault();
+                            var startHidden = confirm("Should the server be started with a hidden window?");
+                            var baseUrl = "<?php echo $_SESSION['root']; ?>/api?action=start-server";
+                            var urlWithOption = baseUrl + "&hidden=" + (startHidden ? "true" : "false");
+                            
+                            $.ajax({
+                                url: urlWithOption,
+                                type: "GET", 
+                                success: function(data) {
+                                    console.log("Server started:", data);
+                                },
+                                error: function(error) {
+                                    console.error("Error starting server:", error);
+                                }
+                            });
+                        }
 
-                function updateServerWithOption() {
-                    var updateHidden = confirm("Should the update be carried out with a hidden window?");
-                    var baseUrl = "<?php echo $_SESSION['root']; ?>/api?action=update-server";
-                    var urlWithOption = baseUrl + "&hidden=" + (updateHidden ? "true" : "false");
-                    window.location.href = urlWithOption;
-                }
+                        function updateServerWithOption(event) {
+                            event.preventDefault();
+                            var updateHidden = confirm("Should the update be carried out with a hidden window?");
+                            var baseUrl = "<?php echo $_SESSION['root']; ?>/api?action=update-server";
+                            var urlWithOption = baseUrl + "&hidden=" + (updateHidden ? "true" : "false");
+                            
+                            $.ajax({
+                                url: urlWithOption,
+                                type: "GET",
+                                success: function(data) {
+                                    console.log("Server updated:", data);
+                                },
+                                error: function(error) {
+                                    console.error("Error updating server:", error);
+                                }
+                            });
+                        }
+
+                        $("#startServerBtn").click(startServerWithOption);
+                        $("#upddateServerBtn").click(updateServerWithOption);
+                    });
                 </script>
                 
             </ul>

@@ -16,6 +16,8 @@ $system_path_messagematches = "../../messagematches.config";
 
 $system_path_dayzserver = "../../DayzServer";
 
+$system_path_psscript = "./assets/files/runPowerShellScript.bat";
+
 ?>
 
 

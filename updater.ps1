@@ -68,6 +68,12 @@ function CheckModFoldersExist
 {
 	$lockFile = "$MainFolder\copying.lock"
 	New-Item $lockFile -ItemType File -Force
+
+    if (-not(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) {
+        # Copy the contents from another directory
+        Copy-Item "$MainFolder\$SteamAPPFolder" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
+		# Jump to the end of the function
+    }
     foreach ($modInfo in $Mod_Info) {
 		$modInfo
         $modName = $modInfo.Mod_Name
@@ -109,12 +115,6 @@ function DoAppUpdate($all_maps)
     $lockFile = "$MainFolder\copying.lock"
     New-Item $lockFile -ItemType File -Force
 
-    if (-not(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) {
-        # Copy the contents from another directory
-        Copy-Item "$MainFolder\$SteamAPPFolder\*" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
-        return
-		# Jump to the end of the function
-    }
 	
 #    foreach ($s in $serverPort)
  #   {
