@@ -10,12 +10,12 @@ $settingsFilePath = Join-Path -Path $MainFolder -ChildPath "\settings.json"
 $theselines = Get-Content "$MainFolder\settings.json"
 $jsonsettingsContent = Get-Content -Path $settingsFilePath  | ConvertFrom-Json
 $Mod_Info = $jsonsettingsContent.ModInfo
-$ServerConfigs = $jsonsettingsContent.ServerConfigurations 
+$ServerConfigs = $jsonsettingsContent.ServerConfigurations
 $ScriptConfig1 = $jsonsettingsContent.ScriptConfig
+
 
 # Define constants and variables
 $SteamCmdRoot = $ScriptConfig1.SteamCmdRoot
-$ScriptFolder = $ScriptConfig1.ScriptFolder
 $Steamlog = $ScriptConfig1.Steamlog
 $SteamAPPFolder = $ScriptConfig1.SteamAPPFolder
 $SteamCmdMods = $ScriptConfig1.SteamCmdMods
@@ -27,7 +27,6 @@ $GAME_ID = $ScriptConfig1.SteamGameID
 $BatchSize = $ScriptConfig1.ModCount
 $Steam_User_Name = $ScriptConfig1.Steam_User_Name
 $SteamPassword = $ScriptConfig1.SteamPassword
-$Rcon = $ScriptConfig1.Rcon
 $DiscordUrl = $ScriptConfig1.DiscordUrl
 $alldone = $false
 $num = 0
@@ -37,18 +36,19 @@ $lockFile = "$($MainFolder)\copying.lock"
 
 $newrconportlist = @()
 $newhostname = @() 
+$theselines = Get-Content "$MainFolder\settings.json"
 # Loop through each server configuration in the serverConfigs array
 foreach ($serverConfig in $configFile.serverConfigs) {
     $startServer = $serverConfig.Startserver
     $serverName = $serverConfig.Name
-    $serverPort = $serverConfig.serverPort
+    $serverPort = $serverConfig.GamePort
     $serverMap = $serverConfig.Mapfolder
     $serverIP = $serverConfig.serverIP
     $rconserverPort = $serverConfig.rconserverPort
     $rconPassword = $serverConfig.rconPassword
     $Serverrestart = $serverConfig.Serverrestart
 }
-
+$serverPort
 foreach ($modEntry in $Mod_Info) {
     $modName = $modEntry.Mod_Name
 	$modSteamWorkshopID = $modEntry.Mod_ID
@@ -119,7 +119,7 @@ function DoAppUpdate($all_maps)
 #    foreach ($s in $serverPort)
  #   {
         $runningProcesses = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
- #   }
+  #  }
     # Check if DayZServer_x64.exe exists
 
     foreach ($process in $runningProcesses)
@@ -211,11 +211,6 @@ function DoAppUpdate($all_maps)
     cp "$($MainFolder)\$($SteamAPPFolder)\vstdlib_s64.dll" "$($MainFolder)\$DayzFolder\" -force
     Set-Content -Path "$($MainFolder)\$($Steamlog)\content_log.txt" -Value ""
     "Done copying Dayz Job"
-
-
-    function EndOfFunction {
-        ShowStatus "Done Update Dayz Job done"
-    }
 }
 
 function detect_App_update($all_maps)
@@ -322,7 +317,7 @@ function FindMapMods($all_mods)
                 $Matches.Clear()
             }
 								# Search for the serverPort
-            $throwaway = $line | Where-Object { $_ -match "^\s*""Port"":\s*""(\d+)""" }
+            $throwaway = $line | Where-Object { $_ -match "^\s*""GamePort"":\s*""(\d+)""" }
             if ($Matches.Count -gt 1) {
                 $currentMap.serverPort = $Matches[1] 
                 $Matches.Clear() 
@@ -449,44 +444,44 @@ function FindUpdatedMod([UpdateStructure[]]$all_mods, [MapMods[]]$all_maps)
 			}
 		}
         if($foundmap)
-        {
-            # pause serverlist 1
-						$configFilePath = "$($MainFolder)\Rwrappr_Config.json"
-						$newConfig = @{
-							msg = $msg
-							modname = $modlist1
-							counter = $counter
-							hostname = $hostname
-							rconport = $rconserverPort
-							rconpassword = $rconPassword
-							modID = $modlist2
-							MainFolder = $MainFolder
-							serverPort = $serverPort
-						} | ConvertTo-Json
-						
-						$newConfig | Set-Content $configFilePath
-						Start-Process -FilePath "powershell.exe"  -ArgumentList "-File", "$MainFolder\rcon_wrapper.ps1" -passthru
-						Start-Sleep -Seconds 10
-						$lockFile1 = "$($MainFolder)\Rwrappr.lock"
-						while (Test-Path $lockFile1) 
-						{
-						Write-Host "Rwrappr Mod update copying job is in progress. Pausing..."
-						Start-Sleep -Seconds 10  # Sleep for 5 seconds before checking again
-						}
-       	   # "Print me  $($MainFolder)\rcon_wrapper.ps1 -ArgumentList $msg, $modlist1, $counter, $hostname, $rconserverPort, $rconPassword, $modlist2, $ScriptFolder, $serverPort"
-       	   # $jobinfo = Start-Job "$($MainFolder)\rcon_wrapper.ps1" -ArgumentList $msg, $modlist1, $counter, $hostname, $rconserverPort, $rconPassword, $modlist2, $ScriptFolder, $serverPort
-       	    #Invoke-Expression "$($ScriptFolder)rcon_wrapper.ps1 ""$($msg[$mycounter])"" ""$m"" ""$counter"" ""$($hostname[$mycounter])"" $($rconserverPort[$mycounter]) ""$rconPassword"" ""$($modlist2[$mycounter])"" ""$ScriptFolder"""
-       	    #Wait-Job $jobinfo
-       	    #Stop-Job $jobinfo
-       	    #Remove-Job $jobinfo
-		    foreach ($myupdatedmod in $modlist1)
-		    {
-		        if(($($DayzFolder) -ne "") -and ($($myupdatedmod -ne "")))
-		    	{
-		    	    rd "$($MainFolder)\$($DayzFolder)\@$myupdatedmod" -Recurse -Force
-		    	}
-                "$($MainFolder)\$($DayzFolder)\@$myupdatedmod"
-		    }
+		{
+			#$runningProcesses1 = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
+			#if ($runningProcesses1)
+			#{
+				
+				# pause serverlist 1
+				$configFilePath = "$($MainFolder)\Rwrappr_Config.json"
+				$newConfig = @{
+					msg = $msg
+					modname = $modlist1
+					counter = $counter
+					hostname = $hostname
+					rconport = $rconserverPort
+					rconpassword = $rconPassword
+					modID = $modlist2
+					MainFolder = $MainFolder
+					serverPort = $serverPort
+				} | ConvertTo-Json
+				
+				$newConfig | Set-Content $configFilePath
+				Start-Process -FilePath "powershell.exe"  -ArgumentList "-File", "$MainFolder\rcon_wrapper.ps1" -passthru
+				Start-Sleep -Seconds 10
+				$lockFile1 = "$($MainFolder)\Rwrappr.lock"
+				while (Test-Path $lockFile1) 
+				{
+				Write-Host "Rwrappr Mod update copying job is in progress. Pausing..."
+				Start-Sleep -Seconds 10  # Sleep for 5 seconds before checking again
+				}
+				
+				foreach ($myupdatedmod in $modlist1)
+				{
+					if(($($DayzFolder) -ne "") -and ($($myupdatedmod -ne "")))
+					{
+						rd "$($MainFolder)\$($DayzFolder)\@$myupdatedmod" -Recurse -Force
+					}
+					"$($MainFolder)\$($DayzFolder)\@$myupdatedmod"
+				}
+			#}	
         }
 	    $modlist1.Clear()
    	    $modlist2.Clear()
