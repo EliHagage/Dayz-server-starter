@@ -84,6 +84,7 @@ function Install-NodeJS {
         [Environment]::SetEnvironmentVariable("Path", "$currentPath;$phpPath", "Machine")
     }
     Write-Host "PHP installed and added to system PATH."
+
 }
 
 # Function to install VC_redist.x64
@@ -150,6 +151,10 @@ if (Test-Path $userPasswordFile) {
 
     # Convert the secure string password to plain text
     $passwordText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password))
+
+    $configData = "${username}:${passwordText}"
+    Set-Content -Path $userPasswordFile -Value $configData
+    Write-Host "userpassword.config created/updated with username and password."
 
 	# Set the path to the settings.json file
 	$userPasswordFile1 = Join-Path -Path $scriptFolder -ChildPath "settings.json"
