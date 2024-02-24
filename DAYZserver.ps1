@@ -260,11 +260,6 @@ if (Test-Path $steamFolder -PathType Container) {
 $webServerPath = Join-Path -Path $scriptFolder -ChildPath "servercontrol\app.js"
 Start-Process -FilePath node.exe -ArgumentList $webServerPath -NoNewWindow
 
-# Copy php.ini from the main script folder to C:\php
-$phpIniSource = Join-Path -Path $scriptFolder -ChildPath "servercontrol\php.ini"
-$phpIniDestination = "C:\php\php.ini"
-Copy-Item -Path $phpIniSource -Destination $phpIniDestination -Force
-
 ## Set the path to the DayzServer folder
 #$dayzServerFolder = Join-Path -Path $scriptFolder -ChildPath "DayzServer"
 #
@@ -308,7 +303,10 @@ $firstTimeInstallFilePath = Join-Path -Path $scriptFolder -ChildPath $firstTimeI
 if (-not (Test-Path $firstTimeInstallFilePath)) {
     # Set the first-time install flag
     New-Item -Path $firstTimeInstallFilePath -ItemType File | Out-Null
-
+    # Copy php.ini from the main script folder to C:\php
+    $phpIniSource = Join-Path -Path $scriptFolder -ChildPath "servercontrol\php.ini"
+    $phpIniDestination = "C:\php\php.ini"
+    Copy-Item -Path $phpIniSource -Destination $phpIniDestination -Force
     # Do not open the website during first-time installation
 } else {
     # Open the desired web page after a delay
