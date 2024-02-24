@@ -14,7 +14,7 @@ class ApiController
         if ($hidden) {
             pclose(popen("start /B " . $cmd, "r"));
         } else {
-            system("start " . $cmd);
+            pclose(popen("start " . $cmd, "r"));
         }
     }
 

@@ -108,18 +108,19 @@ function DoAppUpdate($all_maps)
 {
     $lockFile = "$MainFolder\copying.lock"
     New-Item $lockFile -ItemType File -Force
-    
-    foreach ($s in $serverPort)
-    {
-        $runningProcesses = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
-    }
-    # Check if DayZServer_x64.exe exists
+
     if (-not(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) {
         # Copy the contents from another directory
         Copy-Item "$MainFolder\$SteamAPPFolder\*" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
-        # Jump to the end of the function
-        EndOfFunction
+        return
+		# Jump to the end of the function
     }
+	
+#    foreach ($s in $serverPort)
+ #   {
+        $runningProcesses = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
+ #   }
+    # Check if DayZServer_x64.exe exists
 
     foreach ($process in $runningProcesses)
     {
@@ -215,13 +216,10 @@ function DoAppUpdate($all_maps)
     function EndOfFunction {
         ShowStatus "Done Update Dayz Job done"
     }
-	EndOfFunction
-	return
 }
 
 function detect_App_update($all_maps)
 {
-
         $Matches.Clear()	
 		$updaterLog =Get-Content "$($MainFolder)\$($Steamlog)\content_log.txt"
 	    foreach ($logline in $updaterLog) {
@@ -234,12 +232,6 @@ function detect_App_update($all_maps)
 			DoAppUpdate $all_maps
 			$Matches.Clear()
 		}
-	}
-	# Check if DayZServer_x64.exe exists
-	if (-not(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) 
-	{
-		# Copy the contents from another directory
-		Copy-Item "$MainFolder\$SteamAPPFolder\*" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
 	}
 }
 
