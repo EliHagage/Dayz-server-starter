@@ -77,13 +77,6 @@ function Install-NodeJS {
     }
 	Write-Host "Node installed and added to system PATH."
 	
-    # Add PHP directory to system PATH
-    $currentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
-    $phpPath = "C:\php"  # Adjust this path according to the location of your PHP folder
-    if (-not ($currentPath -like "*$phpPath*")) {
-        [Environment]::SetEnvironmentVariable("Path", "$currentPath;$phpPath", "Machine")
-    }
-    Write-Host "PHP installed and added to system PATH."
 
 }
 
@@ -123,6 +116,13 @@ function Install-PHP {
     } catch {
         Write-Error "Failed to open website for downloading PHP: $_"
     }
+        # Add PHP directory to system PATH
+    $currentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+    $phpPath = "C:\php"  # Adjust this path according to the location of your PHP folder
+    if (-not ($currentPath -like "*$phpPath*")) {
+        [Environment]::SetEnvironmentVariable("Path", "$currentPath;$phpPath", "Machine")
+    }
+    Write-Host "PHP installed and added to system PATH."
 }
 
 # Function to install Node-PHP package
