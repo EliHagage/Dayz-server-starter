@@ -1,14 +1,23 @@
 <?php
 class ApiController
 {
-    private function runPowerShellScript($scriptPath, $args = null) {
-        $cmd = "powershell.exe -WindowStyle Hidden -File " . $scriptPath;
+    private function runPowerShellScript($scriptPath, $args = null, $hidden = false) {
+        $cmd = "powershell.exe";
+        if ($hidden) {
+            $cmd .= " -WindowStyle Hidden";
+        }
+        $cmd .= " -File " . escapeshellarg($scriptPath);
         if ($args !== null) {
             $argString = escapeshellarg(json_encode($args));
             $cmd .= " " . $argString;
         }
-        pclose(popen("start /B " . $cmd, "r"));
+        if ($hidden) {
+            pclose(popen("start /B " . $cmd, "r"));
+        } else {
+            system("start " . $cmd);
+        }
     }
+
 
     public function postMethod()
     {
@@ -17,15 +26,25 @@ class ApiController
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-            if (isset($_GET['action']) && $_GET['action'] == 'start-server') {
-                $this->runPowerShellScript($system_path_startserver);
-                header("Location: ".$_SESSION["root"]."/");
-                exit;
-            }
+            if (isset($_GET['action'])) {
+                $redirectUrl = $_SESSION["root"] . "/";
+                
+                $hidden = isset($_GET['hidden']) && $_GET['hidden'] == 'true';
 
-            if (isset($_GET['action']) && $_GET['action'] == 'update-server') {
-                $this->runPowerShellScript($system_path_updateserver);
-                header("Location: ".$_SESSION["root"]."/");
+                if ($_GET['action'] == 'start-server') {
+                    $this->runPowerShellScript($system_path_startserver, null, $hidden);
+                    if ($hidden) {
+                        $redirectUrl .= "?hidden=true";
+                    }
+                }
+                elseif ($_GET['action'] == 'update-server') {
+                    $this->runPowerShellScript($system_path_updateserver, null, $hidden);
+                    if ($hidden) {
+                        $redirectUrl .= "?hidden=true";
+                    }
+                }
+
+                header("Location: " . $redirectUrl);
                 exit;
             }
 

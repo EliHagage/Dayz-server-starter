@@ -144,12 +144,24 @@ $loadedFiles = [
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo $_SESSION['root']; ?>/api?action=start-server">Start Server</a>
+                    <a class="nav-link" href="#" onclick="updateServerWithOption()">Update Server</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo $_SESSION['root']; ?>/api?action=update-server">Update Server</a>
-                </li>
+                <script>
+                function startServerWithOption() {
+                    var startHidden = confirm("Should the server be started with a hidden window?");
+                    var baseUrl = "<?php echo $_SESSION['root']; ?>/api?action=start-server";
+                    var urlWithOption = baseUrl + "&hidden=" + (startHidden ? "true" : "false");
+                    window.location.href = urlWithOption;
+                }
+
+                function updateServerWithOption() {
+                    var updateHidden = confirm("Should the update be carried out with a hidden window?");
+                    var baseUrl = "<?php echo $_SESSION['root']; ?>/api?action=update-server";
+                    var urlWithOption = baseUrl + "&hidden=" + (updateHidden ? "true" : "false");
+                    window.location.href = urlWithOption;
+                }
+                </script>
                 
             </ul>
 
