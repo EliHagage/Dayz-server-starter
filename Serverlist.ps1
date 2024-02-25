@@ -22,7 +22,7 @@ $Mod_Info = $jsonsettingsContent.ModInfo
     $serverConfig1 = $jsonsettingsContent.ScriptConfig
     foreach ($serverConfig in $serverConfigs) {
         $serverName = $serverConfig.Name
-        $serverPort = $serverConfig.Port
+        $serverPort = $serverConfig.GamePort
         $serverMap = $serverConfig.Mapfolder
         $serverIP = $serverConfig.Serverip
         $rconPort = $serverConfig.rconport
@@ -34,7 +34,7 @@ $Mod_Info = $jsonsettingsContent.ModInfo
 class myserverinfo
 {
 	[string]$name
-	[string]$port
+	[string]$serverPort
 	[int] $adminfo
 	[int] $restartinfo
 	[int] $Msginfo
