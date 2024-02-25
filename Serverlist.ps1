@@ -94,7 +94,7 @@ function CheckModFoldersExist {
 foreach ($serverConfig in $configFile.serverConfigs) {
     $startServer = $serverConfig.Startserver
     $serverName = $serverConfig.Name
-    $serverPort = $serverConfig.Port
+    $serverPort = $serverConfig.GamePort
     $serverMap = $serverConfig.Mapfolder
     $serverIP = $serverConfig.Serverip
     $rconPort = $serverConfig.rconport
@@ -195,7 +195,7 @@ while ($true) {
     $timestamp1 = Get-Date -Format "dd-MM-yy HH:mm"
     foreach ($serverConfig in $serverConfigs) {
         $serverName = $serverConfig.Name
-        $serverPort = $serverConfig.Port
+        $serverPort = $serverConfig.GamePort
         $serverMap = $serverConfig.Mapfolder
         $serverIP = $serverConfig.Serverip
         $rconPort = $serverConfig.rconport
