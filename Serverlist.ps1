@@ -34,7 +34,7 @@ $Mod_Info = $jsonsettingsContent.ModInfo
 class myserverinfo
 {
 	[string]$name
-	[string]$serverPort
+	[string]$Port
 	[int] $adminfo
 	[int] $restartinfo
 	[int] $Msginfo
