@@ -10,6 +10,7 @@ Welcome to the ServerScriptDayZ repository, a sophisticated framework meticulous
    - Extract the ZIP file's contents into the designated `ServerScriptDayZ` directory.
 
 ### 2. Framework Installation:
+   - Right click the `RunMe1st.bat` and goto properties and click unlock file
    - Initiate the installation by executing `RunMe1st.bat`. A shortcut will be thoughtfully created on your desktop for ease of access.
    - Utilize the shortcut to begin. You will be requested to provide your Steam username and password, which are essential for installing the requisite software to operationalize your server.
    - Ensure PHP and Node.js are installed on your system. PHP should be located in `C:\PHP`, and Node.js should be in its default installation directory, `C:\ProgramFiles\nodejs`. These installations are critical for the server's operation.
