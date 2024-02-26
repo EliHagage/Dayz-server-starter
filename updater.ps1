@@ -116,80 +116,83 @@ function DoAppUpdate($all_maps)
     New-Item $lockFile -ItemType File -Force
 
 	
-#    foreach ($s in $serverPort)
- #   {
-        $runningProcesses = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
-  #  }
-    # Check if DayZServer_x64.exe exists
 
-    foreach ($process in $runningProcesses)
-    {
-        $thisprocess = $process | Where-Object { $_ -Match ".+: port (\d+)"}
-        $sharkycount = 0
-        if($thisprocess)
-        {
-            foreach($sharyserver in $serverPort)
-            {
-                if($sharyserver -eq $($Matches[1]))
-                {
-                    $newrconportlist += $rconport[$sharkycount]
-                    $newhostname += $hostname[$sharkycount] 
-                }
-                $sharkycount++
-            }
-        }
-    }
-    $hostname = $newhostname
-    $rconport = $newrconportlist
+	$runningProcesses = @()
+	$runningProcesses1 = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
+	$runningProcesses += $runningProcesses1
+	if ($runningProcesses)
+	{
 
-    foreach ($thismap in $all_maps)
-    {
-        "Start = $($map.Startserver)"
-        if($($thismap.Startserver))
-        {
-            $cnt = $counter; #3min
-            $cnt = 2 #$cnt -1 #100
-                                        
-            Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""say -1 Server Dayz Update Not mod Restart In: $cnt min"""
-            $cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
-            # Clear the log file
-            Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
-        }
-    }
-
-    Start-Sleep -Seconds 60
-
-    $cnt = 60 #$cnt -60 #60
-    while($cnt -gt 0)
-    {
-        foreach ($thismap in $all_maps)
-        {
-            if($($thismap.Startserver))
-            {
-                Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""say -1 Server Dayz Update Not mod Restart In: $cnt Seconds"""
-                $cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
-                # Clear the log file
-                Clear-Content -Path "$MainFolder\servercontrol\public\settings\log.txt"
-            }
-        }
-        Start-Sleep -Seconds 1
-        $cnt-=1
-    }
-    Start-Sleep -Seconds 1
-    "start job Update Dayz Server"
-    foreach ($thismap in $all_maps)
-    {
-        if($($thismap.Startserver))
-        {
-            "shutting down $($thismap.map) at rconserverPort $($thismap.rconserverPort)"
-            Invoke-Expression "$($MainFolder)\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""#shutdown"""
-            $cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
-            # Clear the log file
-            Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
-        }
-    }
-        Start-Sleep -Seconds 7
-
+		foreach ($process in $runningProcesses)
+		{
+			$thisprocess = $process | Where-Object { $_ -Match ".+: port (\d+)"}
+			$sharkycount = 0
+			if($thisprocess)
+			{
+				foreach($sharyserver in $serverPort)
+				{
+					if($sharyserver -eq $($Matches[1]))
+					{
+						$newrconportlist += $rconport[$sharkycount]
+						$newhostname += $hostname[$sharkycount] 
+					}
+					$sharkycount++
+				}
+			}
+		}
+		$hostname = $newhostname
+		$rconport = $newrconportlist
+	
+		foreach ($thismap in $all_maps)
+		{
+			"Start = $($map.Startserver)"
+			if($($thismap.Startserver))
+			{
+				$cnt = $counter; #3min
+				$cnt = 2 #$cnt -1 #100
+											
+				Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""say -1 Server Dayz Update Not mod Restart In: $cnt min"""
+				$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+				# Clear the log file
+				Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
+			}
+		}
+	
+		Start-Sleep -Seconds 60
+	
+		$cnt = 60 #$cnt -60 #60
+		while($cnt -gt 0)
+		{
+			foreach ($thismap in $all_maps)
+			{
+				if($($thismap.Startserver))
+				{
+					Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""say -1 Server Dayz Update Not mod Restart In: $cnt Seconds"""
+					$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+					# Clear the log file
+					Clear-Content -Path "$MainFolder\servercontrol\public\settings\log.txt"
+				}
+			}
+			Start-Sleep -Seconds 1
+			$cnt-=1
+		}
+		Start-Sleep -Seconds 1
+		"start job Update Dayz Server"
+		foreach ($thismap in $all_maps)
+		{
+			if($($thismap.Startserver))
+			{
+				"shutting down $($thismap.map) at rconserverPort $($thismap.rconserverPort)"
+				Invoke-Expression "$($MainFolder)\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""#shutdown"""
+				$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+				# Clear the log file
+				Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
+			}
+		}
+			Start-Sleep -Seconds 7
+	}
+	else
+	{
     "removing files"
     rd "$($MainFolder)\$($DayzFolder)\addons" -recurse -force
     rd "$($MainFolder)\$($DayzFolder)\battleye" -recurse -force
@@ -211,6 +214,7 @@ function DoAppUpdate($all_maps)
     cp "$($MainFolder)\$($SteamAPPFolder)\vstdlib_s64.dll" "$($MainFolder)\$DayzFolder\" -force
     Set-Content -Path "$($MainFolder)\$($Steamlog)\content_log.txt" -Value ""
     "Done copying Dayz Job"
+	}
 }
 
 function detect_App_update($all_maps)
