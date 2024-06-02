@@ -332,7 +332,7 @@ while ($true) {
                 } | ConvertTo-Json
                 
                 $newConfig | Set-Content $configFilePath2
-                $qq =  Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\ServerMSG.ps1" -WindowStyle Hidden -passthru
+                $qq =  Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\$($port)ServerMSG.ps1" -WindowStyle Hidden -passthru
 				$qq
 				$thisinfo.Msginfo = $qq.Id
 
