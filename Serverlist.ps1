@@ -34,10 +34,11 @@ $Mod_Info = $jsonsettingsContent.ModInfo
 class myserverinfo
 {
 	[string]$name
-	[string]$Port
+	[string]$port
 	[int] $adminfo
 	[int] $restartinfo
 	[int] $Msginfo
+	[int] $ProcessEvent
 }
 
 $myserverinfoarray=@()
@@ -108,7 +109,7 @@ $lockFile = Join-Path -Path $ScriptFolder -ChildPath "$($MainFolder)\copying.loc
 # Check if the lock file exists
 while (Test-Path $lockFile) {
     Write-Host "Mod copying job is in progress. Pausing..."
-    Start-Sleep -Seconds 5  # Sleep for 20 seconds before checking again
+    Start-Sleep -Seconds 15  # Sleep for 20 seconds before checking again
 }
 function hewzywhatits {
     param (
@@ -215,35 +216,6 @@ while ($true) {
 		{
             if (-not $existingProcess) 
 			{
-#				"aaaaaaaaaaaaaaaaaaaaaaa"
-#				if($myserverinfoarray)
-#				{
-#					foreach ($ser in $myserverinfoarray)
-#					{
-#						$mycontent = @{
-#							name = $myserverinfoarray.name
-#							port = $myserverinfoarray.port
-#							adminfo = $myserverinfoarray.adminfo
-#							restartinfo = $myserverinfoarray.restartinfo
-#							Msginfo = $myserverinfoarray.Msginfo
-#							}|ConvertTo-Json
-#					$mycontent | Add-Content -Path "serverprocess.json"
-#				}
-#				"bbbbbbbbbbbbbbbbbbbbbb"
-                #$processToKill = $myserverinfoarray | Where-Object {$_.name -eq $serverName -and $_.port -eq $serverPort }
-                #if($processToKill.Count -gt 0)
-                #{
-                #    $processToKill
-				#	try
-				#	{
-                #    Stop-Process $($processToKill.adminfo)
-                #    Stop-Process $($processToKill.restartinfo)
-                #    Stop-Process $($processToKill.Msginfo)
-				#	}
-				#	catch
-				#	{}
-                #}
-				
 				try
 				{
 				# Read the PID from the file
@@ -280,8 +252,17 @@ while ($true) {
 				kill $pid4
 				}
 				catch {"pid4 Cant kill it its not there"}
+				try
+				{
+				# Read the PID from the file
+				$pidFilePath = "$MainFolder\$($RconPort)ProcessEventPID.txt"
+				$pid5 = Get-Content $pidFilePath
+				# Stop the process with the PID
+				kill $pid5
+				}
+				catch {"pid5 Cant kill it its not there"}
                 "$serverName is down...$timestamp"
-				Start-Sleep -Seconds 5
+				Start-Sleep -Seconds 15
 
                 $backupFolder = New-Item -ItemType Directory -Path "$($MainFolder)\$($DayzFolder)\backups\$($serverName)\$(Get-Date -Format yyMMddHHmmss)"
                 $logFolder = New-Item -ItemType Directory -Path "$($MainFolder)\$($DayzFolder)\logs\$($serverName)\$(Get-Date -Format yyMMddHHmmss)"
@@ -295,7 +276,17 @@ while ($true) {
                 CheckModFoldersExist
                 "Restarting $serverName at $timestamp"
                 Start-Process -FilePath "$MainFolder\$($DayzFolder)\DayZServer_x64.exe" -WorkingDirectory $MainFolder\$DayzFolder -ArgumentList @($serverConfig.Args)
-                Start-Sleep -Seconds 45
+#               Start-Sleep -Seconds 50
+				while($true)
+				{
+					# wait till correct port # is present
+					$runningProcesses = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" }
+					$existingProcess = $runningProcesses | Where-Object { $_.MainWindowTitle -like "*$serverPort*" }
+					if($existingProcess)
+					{
+						break
+					}
+				}
                 # Update Restart_Config.json with new parameters
                 $configFilePath0 = "$($MainFolder)\ADM_Config.json"
                 $newConfig = @{
@@ -314,6 +305,7 @@ while ($true) {
                 $thisinfo.port = $serverPort #-WindowStyle Hidden
                 $qq = Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\ADMProcess.ps1" -WindowStyle Hidden -passthru 
                 $thisinfo.adminfo = $qq.Id
+				
                 $configFilePath1 = "$($MainFolder)\Restart_Config.json"
                 $newConfig = @{
                     timeToRestart = $Serverrestart
@@ -343,9 +335,34 @@ while ($true) {
                 $qq =  Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\ServerMSG.ps1" -WindowStyle Hidden -passthru
 				$qq
 				$thisinfo.Msginfo = $qq.Id
+
+
+				#$throwaway = Start-Job -Name "$($serverName)_$($serverPort)" "$($ScriptFolder)ProcessEvent.ps1" -ArgumentList "$serverIP", $rconPort, "$rconPassword", $serverName, $ScriptFolder
+                $configFilePath3 = "$MainFolder\PVP_Event_config.json"
+                $newConfig = @{
+                    timeToRestart = $Serverrestart
+                    ServerIP = $serverIP
+                    RconPort = $rconPort
+                    serverName = $serverName
+                    rconPassword = $rconPassword
+                    ScriptFolder = "$($MainFolder)"
+                    DayzFolder = "$($DayzFolder)"
+                } | ConvertTo-Json
+				$configFilePath3
+                $rconPassword
+				$serverName
+				$rconPort
+				$serverIP
+				$Serverrestart
+                $newConfig | Set-Content $configFilePath3
+                $qq =  Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\ProcessEvent.ps1" -passthru
+				$qq
+				$thisinfo.ProcessEvent = $qq.Id
+				
                 $thisinfo.Msginfo
                 $thisinfo.adminfo
                 $thisinfo.restartinfo
+                $thisinfo.ProcessEvent
                 $myserverinfoarray += $thisinfo
             }
         }
@@ -399,18 +416,27 @@ while ($true) {
 				kill $pid4
 				}
 				catch {"pid4 Cant kill it its not there"}
+				try
+				{
+				# Read the PID from the file
+				$pidFilePath = "$MainFolder\$($RconPort)ProcessEventPID.txt"
+				$pid5 = Get-Content $pidFilePath
+				# Stop the process with the PID
+				kill $pid5
+				}
+				catch {"pid5 Cant kill it its not there"}
                 "$serverName is down...$timestamp"
-				Start-Sleep -Seconds 5
+				Start-Sleep -Seconds 15
 				
             }
         }
     }
-    Start-Sleep -Seconds 10
+    Start-Sleep -Seconds 15
     #############################################################
     #puse list for copy lockFile
     $lockFile = "$MainFolder\copying.lock"
     while (Test-Path $lockFile) {
         Write-Host "Mod copying job is in progress. Pausing..."
-        Start-Sleep -Seconds 10  # Sleep for 10 seconds before checking again
+        Start-Sleep -Seconds 15  # Sleep for 10 seconds before checking again
     }
 }
