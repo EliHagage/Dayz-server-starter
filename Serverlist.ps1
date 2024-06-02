@@ -355,7 +355,7 @@ while ($true) {
 				$serverIP
 				$Serverrestart
                 $newConfig | Set-Content $configFilePath3
-                $qq =  Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\ProcessEvent.ps1" -passthru
+                $qq =  Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$($MainFolder)\ProcessEvent.ps1" -WindowStyle Hidden -passthru
 				$qq
 				$thisinfo.ProcessEvent = $qq.Id
 				
