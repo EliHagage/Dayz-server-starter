@@ -10,12 +10,12 @@ $settingsFilePath = Join-Path -Path $MainFolder -ChildPath "\settings.json"
 $theselines = Get-Content "$MainFolder\settings.json"
 $jsonsettingsContent = Get-Content -Path $settingsFilePath  | ConvertFrom-Json
 $Mod_Info = $jsonsettingsContent.ModInfo
-$ServerConfigs = $jsonsettingsContent.ServerConfigurations
+$ServerConfigs = $jsonsettingsContent.ServerConfigurations 
 $ScriptConfig1 = $jsonsettingsContent.ScriptConfig
-
 
 # Define constants and variables
 $SteamCmdRoot = $ScriptConfig1.SteamCmdRoot
+$ScriptFolder = $ScriptConfig1.ScriptFolder
 $Steamlog = $ScriptConfig1.Steamlog
 $SteamAPPFolder = $ScriptConfig1.SteamAPPFolder
 $SteamCmdMods = $ScriptConfig1.SteamCmdMods
@@ -27,16 +27,16 @@ $GAME_ID = $ScriptConfig1.SteamGameID
 $BatchSize = $ScriptConfig1.ModCount
 $Steam_User_Name = $ScriptConfig1.Steam_User_Name
 $SteamPassword = $ScriptConfig1.SteamPassword
+$Rcon = $ScriptConfig1.Rcon
 $DiscordUrl = $ScriptConfig1.DiscordUrl
 $alldone = $false
 $num = 0
 $current_mod = 0
 $first_entry = $false
 $lockFile = "$($MainFolder)\copying.lock"
-
+$rconPassword = ""
 $newrconportlist = @()
 $newhostname = @() 
-$theselines = Get-Content "$MainFolder\settings.json"
 # Loop through each server configuration in the serverConfigs array
 foreach ($serverConfig in $configFile.serverConfigs) {
     $startServer = $serverConfig.Startserver
@@ -45,10 +45,10 @@ foreach ($serverConfig in $configFile.serverConfigs) {
     $serverMap = $serverConfig.Mapfolder
     $serverIP = $serverConfig.serverIP
     $rconserverPort = $serverConfig.rconserverPort
-    $rconPassword = $serverConfig.rconPassword
+#    $rconPassword = $serverConfig.rconpassword
     $Serverrestart = $serverConfig.Serverrestart
 }
-$serverPort
+
 foreach ($modEntry in $Mod_Info) {
     $modName = $modEntry.Mod_Name
 	$modSteamWorkshopID = $modEntry.Mod_ID
@@ -68,12 +68,6 @@ function CheckModFoldersExist
 {
 	$lockFile = "$MainFolder\copying.lock"
 	New-Item $lockFile -ItemType File -Force
-
-    if (-not(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) {
-        # Copy the contents from another directory
-        Copy-Item "$MainFolder\$SteamAPPFolder" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
-		# Jump to the end of the function
-    }
     foreach ($modInfo in $Mod_Info) {
 		$modInfo
         $modName = $modInfo.Mod_Name
@@ -85,7 +79,7 @@ function CheckModFoldersExist
         if (!(Test-Path -Path $destinationModFolder -PathType Container)) {
             ShowStatus "Mod folder for $modName not exist. Creating it..."
             cp $($modSourcePath) $destinationModFolder -Recurse -Force
-            cp "$modSourcePath\Key*\*.*" "$MainFolder\$DayzFolder\Keys\"
+            cp "$modSourcePath\Key*\*.*" "$MainFolder\$DayzFolder\Keys"
         }
     }
 		ShowStatus "Completed Step 5"
@@ -107,92 +101,94 @@ class MapMods {
     [string]$serverIP
     [string]$rconserverPort
     [string]$Serverrestart
-    [string]$rconPassword
+#    [string]$rconPassword
 }
 
 function DoAppUpdate($all_maps)
 {
     $lockFile = "$MainFolder\copying.lock"
     New-Item $lockFile -ItemType File -Force
+    
+    foreach ($s in $serverPort)
+    {
+        $runningProcesses = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
+    }
+    # Check if DayZServer_x64.exe exists
+    if (!(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) {
+        # Copy the contents from another directory
+        Copy-Item "$MainFolder\$SteamAPPFolder\*" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
+        # Jump to the end of the function
+        EndOfFunction
+    }
 
-	
+    foreach ($process in $runningProcesses)
+    {
+        $thisprocess = $process | Where-Object { $_ -Match ".+: port (\d+)"}
+        $sharkycount = 0
+        if($thisprocess)
+        {
+            foreach($sharyserver in $serverPort)
+            {
+                if($sharyserver -eq $($Matches[1]))
+                {
+                    $newrconportlist += $rconport[$sharkycount]
+                    $newhostname += $hostname[$sharkycount] 
+                }
+                $sharkycount++
+            }
+        }
+    }
+    $hostname = $newhostname
+    $rconport = $newrconportlist
 
-	$runningProcesses = @()
-	$runningProcesses1 = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
-	$runningProcesses += $runningProcesses1
-	if ($runningProcesses)
-	{
+    foreach ($thismap in $all_maps)
+    {
+        "Start = $($map.Startserver)"
+        if($($thismap.Startserver))
+        {
+            $cnt = $counter; #3min
+            $cnt = 2 #$cnt -1 #100
+                                        
+            Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$rconPassword"" ""say -1 Server Dayz Update Not mod Restart In: $cnt min"""
+            $cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+            # Clear the log file
+            Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
+        }
+    }
 
-		foreach ($process in $runningProcesses)
-		{
-			$thisprocess = $process | Where-Object { $_ -Match ".+: port (\d+)"}
-			$sharkycount = 0
-			if($thisprocess)
-			{
-				foreach($sharyserver in $serverPort)
-				{
-					if($sharyserver -eq $($Matches[1]))
-					{
-						$newrconportlist += $rconport[$sharkycount]
-						$newhostname += $hostname[$sharkycount] 
-					}
-					$sharkycount++
-				}
-			}
-		}
-		$hostname = $newhostname
-		$rconport = $newrconportlist
-	
-		foreach ($thismap in $all_maps)
-		{
-			"Start = $($map.Startserver)"
-			if($($thismap.Startserver))
-			{
-				$cnt = $counter; #3min
-				$cnt = 2 #$cnt -1 #100
-											
-				Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""say -1 Server Dayz Update Not mod Restart In: $cnt min"""
-				$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
-				# Clear the log file
-				Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
-			}
-		}
-	
-		Start-Sleep -Seconds 60
-	
-		$cnt = 60 #$cnt -60 #60
-		while($cnt -gt 0)
-		{
-			foreach ($thismap in $all_maps)
-			{
-				if($($thismap.Startserver))
-				{
-					Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""say -1 Server Dayz Update Not mod Restart In: $cnt Seconds"""
-					$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
-					# Clear the log file
-					Clear-Content -Path "$MainFolder\servercontrol\public\settings\log.txt"
-				}
-			}
-			Start-Sleep -Seconds 1
-			$cnt-=1
-		}
-		Start-Sleep -Seconds 1
-		"start job Update Dayz Server"
-		foreach ($thismap in $all_maps)
-		{
-			if($($thismap.Startserver))
-			{
-				"shutting down $($thismap.map) at rconserverPort $($thismap.rconserverPort)"
-				Invoke-Expression "$($MainFolder)\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$($thismap.rconPassword)"" ""#shutdown"""
-				$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
-				# Clear the log file
-				Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
-			}
-		}
-			Start-Sleep -Seconds 7
-	}
-	else
-	{
+    Start-Sleep -Seconds 60
+
+    $cnt = 60 #$cnt -60 #60
+    while($cnt -gt 0)
+    {
+        foreach ($thismap in $all_maps)
+        {
+            if($($thismap.Startserver))
+            {
+                Invoke-Expression "$MainFolder\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$rconPassword"" ""say -1 Server Dayz Update Not mod Restart In: $cnt Seconds"""
+                $cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+                # Clear the log file
+                Clear-Content -Path "$MainFolder\servercontrol\public\settings\log.txt"
+            }
+        }
+        Start-Sleep -Seconds 1
+        $cnt-=1
+    }
+    Start-Sleep -Seconds 1
+    "start job Update Dayz Server"
+    foreach ($thismap in $all_maps)
+    {
+        if($($thismap.Startserver))
+        {
+            "shutting down $($thismap.map) at rconserverPort $($thismap.rconserverPort)"
+            Invoke-Expression "$($MainFolder)\ASRCon.ps1  ""$($thismap.serverIP)"" $($thismap.rconserverPort) ""$rconPassword"" ""#shutdown"""
+            $cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+            # Clear the log file
+            Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
+        }
+    }
+        Start-Sleep -Seconds 7
+
     "removing files"
     rd "$($MainFolder)\$($DayzFolder)\addons" -recurse -force
     rd "$($MainFolder)\$($DayzFolder)\battleye" -recurse -force
@@ -205,20 +201,27 @@ function DoAppUpdate($all_maps)
     cp "$($MainFolder)\$($SteamAPPFolder)\bliss" "$($MainFolder)\$DayzFolder\" -recurse -force
     cp "$($MainFolder)\$($SteamAPPFolder)\docs" "$($MainFolder)\$DayzFolder\" -recurse -force
     cp "$($MainFolder)\$($SteamAPPFolder)\dta" "$($MainFolder)\$DayzFolder\" -recurse -force
-    cp "$($MainFolder)\$($SteamAPPFolder)\keys\*.*" "$($MainFolder)\$($DayzFolder)\Keys\" -recurse -force
+    cp "$($MainFolder)\$($SteamAPPFolder)\keys\*.*" "$($MainFolder)\$($DayzFolder)\Keys" -recurse -force
     cp "$($MainFolder)\$($SteamAPPFolder)\dayz.gproj" "$($MainFolder)\$DayzFolder\" -force
     cp "$($MainFolder)\$($SteamAPPFolder)\DayZServer_x64.exe" "$($MainFolder)\$DayzFolder\" -force 
     cp "$($MainFolder)\$($SteamAPPFolder)\steam_api64.dll" "$($MainFolder)\$DayzFolder\" -force
     cp "$($MainFolder)\$($SteamAPPFolder)\steamclient64.dll" "$($MainFolder)\$DayzFolder\" -force
     cp "$($MainFolder)\$($SteamAPPFolder)\tier0_s64.dll" "$($MainFolder)\$DayzFolder\" -force
     cp "$($MainFolder)\$($SteamAPPFolder)\vstdlib_s64.dll" "$($MainFolder)\$DayzFolder\" -force
-    Set-Content -Path "$($MainFolder)\$($Steamlog)\content_log.txt" -Value ""
+    ren "$($MainFolder)\$($Steamlog)\content_log.txt" "$($MainFolder)\$($Steamlog)\content_log.txt.Update" -force
     "Done copying Dayz Job"
-	}
+
+
+    function EndOfFunction {
+        ShowStatus "Done Update Dayz Job done"
+    }
+	EndOfFunction
+	return
 }
 
 function detect_App_update($all_maps)
 {
+
         $Matches.Clear()	
 		$updaterLog =Get-Content "$($MainFolder)\$($Steamlog)\content_log.txt"
 	    foreach ($logline in $updaterLog) {
@@ -231,6 +234,12 @@ function detect_App_update($all_maps)
 			DoAppUpdate $all_maps
 			$Matches.Clear()
 		}
+	}
+	# Check if DayZServer_x64.exe exists
+	if (!(Test-Path "$MainFolder\$DayzFolder\DayZServer_x64.exe")) 
+	{
+		# Copy the contents from another directory
+		Copy-Item "$MainFolder\$SteamAPPFolder\*" -Destination "$MainFolder\$DayzFolder\" -Recurse -Force
 	}
 }
 
@@ -264,7 +273,7 @@ function FindMapMods($all_mods)
     $currentMap = $null
     $serverPort = $null
     $rconserverPort = $null
-    $rconPassword = $null
+#    $rconPassword = $null
     $nextserver = ""
 
     foreach ($line in $theselines) {
@@ -341,11 +350,12 @@ function FindMapMods($all_mods)
 
 
             # Search for the Rcon password
-            $throwaway = $line | Where-Object { $_ -match "^\s*""rconpassword"":\s*""(.*)"""}
-            if ($Matches.Count -gt 1) {
-                $currentMap.rconPassword = $Matches[1]
-                $Matches.Clear() 
-            }
+           $throwaway = $line | Where-Object { $_ -match "^\s*""rconpassword"":\s*""(.*)"""}
+           if ($Matches.Count -gt 1) {
+               $rconPassword = $Matches[1]
+			   "changed password to $rconPassword"
+               $Matches.Clear() 
+           }
             # Search for the 	serverIP = $($thismap.serverIP)
             $throwaway = $line | Where-Object { $_ -match "^\s*""Serverip"":\s*""(.*)"""}
             if ($Matches.Count -gt 1) {
@@ -412,7 +422,9 @@ function FindUpdatedMod([UpdateStructure[]]$all_mods, [MapMods[]]$all_maps)
 	
      $lockFile = "$($MainFolder)\copying.lock"
      New-Item $lockFile -ItemType File -Force
-	#"11111 $($Steamlog)workshop_log.txt $Script_folder"
+	"1111111"
+	"$rconPassword"
+	"2222"
 	if($idarray.Count -gt 0)
 	{
 		foreach ($id in $idarray)
@@ -433,7 +445,7 @@ function FindUpdatedMod([UpdateStructure[]]$all_mods, [MapMods[]]$all_maps)
 						$hostname += $($map.serverIP)  
 						$rconserverPort += $map.rconserverPort
 						$map = $map.map
-						$rconPassword = "$($all_maps.rconPassword)"
+						#$rconPassword = $rconPassword
 						$mod = $($modupdated.mod_name)
 						$modlist1 += $($modupdated.mod_name)
 						$modlist2 += $($modupdated.mod_id)
@@ -448,44 +460,44 @@ function FindUpdatedMod([UpdateStructure[]]$all_mods, [MapMods[]]$all_maps)
 			}
 		}
         if($foundmap)
-		{
-			#$runningProcesses1 = Get-Process | Where-Object { $_.ProcessName -like "DayZServer_x64*" } | Select-Object {$_.MainWindowTitle}
-			#if ($runningProcesses1)
-			#{
-				
-				# pause serverlist 1
-				$configFilePath = "$($MainFolder)\Rwrappr_Config.json"
-				$newConfig = @{
-					msg = $msg
-					modname = $modlist1
-					counter = $counter
-					hostname = $hostname
-					rconport = $rconserverPort
-					rconpassword = $rconPassword
-					modID = $modlist2
-					MainFolder = $MainFolder
-					serverPort = $serverPort
-				} | ConvertTo-Json
-				
-				$newConfig | Set-Content $configFilePath
-				Start-Process -FilePath "powershell.exe"  -ArgumentList "-File", "$MainFolder\rcon_wrapper.ps1" -passthru
-				Start-Sleep -Seconds 10
-				$lockFile1 = "$($MainFolder)\Rwrappr.lock"
-				while (Test-Path $lockFile1) 
-				{
-				Write-Host "Rwrappr Mod update copying job is in progress. Pausing..."
-				Start-Sleep -Seconds 10  # Sleep for 5 seconds before checking again
-				}
-				
-				foreach ($myupdatedmod in $modlist1)
-				{
-					if(($($DayzFolder) -ne "") -and ($($myupdatedmod -ne "")))
-					{
-						rd "$($MainFolder)\$($DayzFolder)\@$myupdatedmod" -Recurse -Force
-					}
-					"$($MainFolder)\$($DayzFolder)\@$myupdatedmod"
-				}
-			#}	
+        {
+            # pause serverlist 1
+						$configFilePath = "$($MainFolder)\Rwrappr_Config.json"
+						$newConfig = @{
+							msg = $msg
+							modname = $modlist1
+							counter = $counter
+							hostname = $hostname
+							rconport = $rconserverPort
+							rconpassword = $rconPassword
+							modID = $modlist2
+							MainFolder = $MainFolder
+							serverPort = $serverPort
+						} | ConvertTo-Json
+						
+						$newConfig | Set-Content $configFilePath
+						Start-Process -FilePath "powershell.exe"  -ArgumentList "-File", "$MainFolder\rcon_wrapper.ps1" -passthru
+						Start-Sleep -Seconds 10
+						$lockFile1 = "$($MainFolder)\Rwrappr.lock"
+						while (Test-Path $lockFile1) 
+						{
+						Write-Host "Rwrappr Mod update copying job is in progress. Pausing..."
+						Start-Sleep -Seconds 10  # Sleep for 5 seconds before checking again
+						}
+       	   # "Print me  $($MainFolder)\rcon_wrapper.ps1 -ArgumentList $msg, $modlist1, $counter, $hostname, $rconserverPort, $rconPassword, $modlist2, $ScriptFolder, $serverPort"
+       	   # $jobinfo = Start-Job "$($MainFolder)\rcon_wrapper.ps1" -ArgumentList $msg, $modlist1, $counter, $hostname, $rconserverPort, $rconPassword, $modlist2, $ScriptFolder, $serverPort
+       	    #Invoke-Expression "$($ScriptFolder)rcon_wrapper.ps1 ""$($msg[$mycounter])"" ""$m"" ""$counter"" ""$($hostname[$mycounter])"" $($rconserverPort[$mycounter]) ""$rconPassword"" ""$($modlist2[$mycounter])"" ""$ScriptFolder"""
+       	    #Wait-Job $jobinfo
+       	    #Stop-Job $jobinfo
+       	    #Remove-Job $jobinfo
+		    foreach ($myupdatedmod in $modlist1)
+		    {
+		        if(($($DayzFolder) -ne "") -and ($($myupdatedmod -ne "")))
+		    	{
+		    	    rd "$($MainFolder)\$($DayzFolder)\@$myupdatedmod" -Recurse -Force
+		    	}
+                "$($MainFolder)\$($DayzFolder)\@$myupdatedmod"
+		    }
         }
 	    $modlist1.Clear()
    	    $modlist2.Clear()
@@ -523,6 +535,7 @@ while ($true)
 		Add-Content -Path $logFilePath -Value "Iteration completed at $timestamp"
 		$lockFile = "$($MainFolder)\copying.lock"
 		Remove-Item $lockFile -Force
+		Set-Content -Path "$($MainFolder)\$($Steamlog)\content_log.txt" -Value ""
 		$remainingTime = 900
 		ShowStatus "Script is still running Seconds $remainingTime $timestamp"
 		# Reduce the remaining time in subsequent iterations
