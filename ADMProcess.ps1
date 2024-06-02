@@ -27,7 +27,7 @@ $timeToRestart
 $MainFolder
 $DayzFolder
 $configFilePath = "$($MainFolder)ADM_Config.json"
-Set-Content $configFilePath -Value ""
+#Set-Content $configFilePath -Value ""
 Set-Content "$($MainFolder)$($RconPort)ADMPID.txt" -Value $RestartmyPID
 $myserver = @()
 foreach ($me in $serverConfig)
@@ -194,50 +194,56 @@ function ProcessLine($line)
 			{}
 			else
 			{
-				$message = ($line | Where-Object {$_ -Match "Player ""(.*)"".*Player ""(.*)"""}) #.*hit by Player ""(.*)"" into (.*)\("})
-				if($message -and $Matches.Count -gt 1)
+				if($serverName.Contains("PVE"))
+				{
+					$message = ($line | Where-Object {$_ -Match "Player ""(.*)"".*Player ""(.*)"""}) #.*hit by Player ""(.*)"" into (.*)\("})
+					if($message -and $Matches.Count -gt 1)
+					{
+						$matchname = $Matches[1]
+						$perp = $Matches[2]
+						$location = $Matches[3].split(' ').split('(')
+	
+						$message12 = "$matchname hit by $perp"
+						if($currentplayer.messagecount -lt 3)
+						{
+							Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""Say -1 $message12"""
+							Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""Say -1 $WARNING $perp This is a PVE server Only."""
+							# Clear the log file
+							Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
+						}
+					}
+				}
+			}
+			if($serverName.Contains("PVE"))
+			{
+				$message = ($line | Where-Object {$_ -Match "Player ""(.*)"".*hit by (\b.*\b) into (\b.*\b)"})
+				if($message -and $Matches.Count -gt 2)
 				{
 					$matchname = $Matches[1]
 					$perp = $Matches[2]
 					$location = $Matches[3].split(' ').split('(')
-
-					$message12 = "$matchname hit by $perp"
+					$message12 = "$matchname hit by $perp into $($location[0])"
+					$currentplayer = $global:allplayers | Where-Object {$_.name -eq $matchname}
+					if($currentplayer -eq $null)
+					{
+						$currentplayer2 = [Player]::new()
+						$currentplayer2.name = $matchname
+						$currentplayer2.messagecount++
+						$global:allplayers += $currentplayer2
+					}
+					else
+					{
+						$currentplayer.messagecount++
+					}
+					$Matches.Clear()
 					if($currentplayer.messagecount -lt 3)
 					{
 						Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""Say -1 $message12"""
-						Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""Say -1 $WARNING $perp This is a PVE server Only."""
 						# Clear the log file
 						Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
 					}
 				}
-		}
-		$message = ($line | Where-Object {$_ -Match "Player ""(.*)"".*hit by (\b.*\b) into (\b.*\b)"})
-		if($message -and $Matches.Count -gt 2)
-		{
-			$matchname = $Matches[1]
-            $perp = $Matches[2]
-            $location = $Matches[3].split(' ').split('(')
-            $message12 = "$matchname hit by $perp into $($location[0])"
-			$currentplayer = $global:allplayers | Where-Object {$_.name -eq $matchname}
-            if($currentplayer -eq $null)
-            {
-				$currentplayer2 = [Player]::new()
-				$currentplayer2.name = $matchname
-				$currentplayer2.messagecount++
-				$global:allplayers += $currentplayer2
-            }
-            else
-            {
-				$currentplayer.messagecount++
-            }
-            $Matches.Clear()
-            if($currentplayer.messagecount -lt 3)
-            {
-				Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""Say -1 $message12"""
-				# Clear the log file
-				Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
-            }
-		}
+			}
         $playerrequest = $line | Where-Object {$_ -Match "Chat\(""(.*)""\(id=(.*)\)\): (.*)"}
         if($playerrequest)
         {
@@ -266,7 +272,7 @@ function ProcessLine($line)
 						} | ConvertTo-Json
 						
 						$newConfig | Set-Content $configFilePath
-						$zzqqww = Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$MainFolder\restartserver.ps1" -WindowStyle Hidden -passthru
+						$zzqqww = Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$MainFolder\restartserver.ps1" -passthru
 					}
 				}
 				$Matches.Clear()
@@ -316,6 +322,36 @@ function ProcessLine($line)
 				}
 				$Matches.Clear()				
 			}
+			if($playerconversation -match ('^!event (.+)$'))
+			{
+				$eventinfo = Get-Content "$($MainFolder)\$($serverName)Eventfile.txt"
+				$searchinfo = $Matches[1]
+				
+				Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""players"""
+				$cc = Get-Content "$MainFolder\servercontrol\public\settings\log.txt"
+				# Clear the log file
+				Clear-Content -Path "$($MainFolder)\servercontrol\public\settings\log.txt"
+				for($bb=12;$bb -lt $($cc.Count-1);$bb++)
+				{
+					$messageplayer=$cc[$bb] | Where-Object {$_ -match "^(\d+)\s+.*\s+\d+\s+(.*)\(OK\)\s+(.*)"}
+					$playerID =$Matches[1]
+					$NameofPlayer =$Matches[3]
+
+					if ($NameofPlayer -eq $requestname)
+					{
+						foreach ($eventline in $eventinfo)
+						{
+							if($eventline -match $searchinfo)
+							{
+								Invoke-Expression "$($MainFolder)\ASRCon.ps1 ""$serverIP"" $rconPort ""$rconPassword"" ""Say $playerID $eventline"""
+								$Matches.Clear()
+							}
+						}
+						break
+					}
+				}
+			}
+			
             if($playerconversation -match ('^!sendlang=(.*)'))
             {
 				foreach($convplayer in $global:allplayers)
@@ -370,7 +406,7 @@ function ProcessLine($line)
 								$jokeinfoarray += "----------"
 								Set-Content "$MainFolder\jokeinfo.txt" -Value $jokeinfoarray
 								$jokeinfoarray
-						    	Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$MainFolder\jokes.ps1" -WindowStyle Hidden 
+						    	Start-Process -FilePath "powershell.exe" -ArgumentList "-File", "$MainFolder\jokes.ps1"
 							}
 						}
 					}
